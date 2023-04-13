@@ -1,1 +1,53 @@
->>> Text file explaining how Syncraft's Boot video files work
+[en-US]
+
+File "bootvideo_intro.mp4" is a shortened version of "bootvideo_loading.mp4". It was preferred to use the "bootvideo_intro.mp4" in the initialization of the Printers because it is a shorter video file, ensuring that in no way it can disturb the progress of the Syncraft initialization. However, a longer version ("loading") will be kept for testing purposes.
+
+To use the video file on Syncraft Printers, you must follow these steps:
+
+* STEP 1: Install “omxplayer”.
+$ sudo apt-get install omxplayer
+
+* STEP 2: Disable the initial boot screen of the Raspberry Pi, the “Splash Screen”.
+$ sudo nano /boot/config.txt
+
+Add at the end of the File, below the section [all]
+
+disable_splash=1
+
+* STEP 3: Add a long list of parameters to the end of the “cmdline.txt” file.
+
+consoleblank=1 logo.nologo quiet loglevel=0 plymouth.enable=0 vt.global_cursor_default=0 plymouth.ignore-serial-consoles splash fastboot noatime nodiratime noram
+
+* STEP 4: Customize the “rc.local” file by adding:
+
+omxplayer /home/pi/printer_data/config/.bootvideo/bootvideo_intro.mp4 &
+
+* FINAL STEP: Restart the machine.
+
+-------------------------------------------------------------------------------------------------------
+
+[pt-BR]
+
+O Arquivo "bootvideo_intro.mp4" é uma versão encurtada de "bootvideo_loading.mp4". Foi preferido utilizar o "bootvideo_intro.mp4" na inicialização das Impressoras por se tratar de um arquivo de vídeo mais curto, garantindo que de forma alguma possa atrapalhar no andamento na inicialização da Syncraft. Entretanto, será mantido uma versão mais longa ("loading") para fins de testes.
+
+Para utilizar o arquivo de vídeo nas Impressoras Syncraft, deve seguir estes passos:
+
+* PASSO 1: Instale “omxplayer”.
+$ sudo apt-get install omxplayer
+
+* PASSO 2: Desabilite a tela inicial de Boot do Raspberry Pi, a “Splash Screen”.
+$ sudo nano /boot/config.txt
+
+Adicione no final do Arquivo, abaixo da sessão [all]
+
+disable_splash=1
+
+* PASSO 3: Adicione uma lista extensa de parâmetros ao fim do arquivo “cmdline.txt”.
+
+consoleblank=1 logo.nologo quiet loglevel=0 plymouth.enable=0 vt.global_cursor_default=0 plymouth.ignore-serial-consoles splash fastboot noatime nodiratime noram
+
+* PASSO 4: Customize o arquivo “rc.local”, adicionando:
+
+omxplayer /home/pi/printer_data/config/.bootvideo/bootvideo_intro.mp4 &
+
+* PASSO FINAL: Reinicie a máquina.
