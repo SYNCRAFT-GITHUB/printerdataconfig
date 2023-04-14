@@ -21,7 +21,10 @@ read input
 if [[ $input == "GO" || $input == "go" ]]; then
     echo -e "\n\n"
     cp /home/pi/printer_data/config/backup-printer.cfg /home/pi/printer_data/config/printer.cfg
-    echo "[*] SUCCESS."
+    chown pi /home/pi/printer_data/config/printer.cfg
+    echo "[*] The new printer.cfg file has been created."
+    echo "[*] File owner defined as \"pi\"."
+    echo "[*] FINISHED."
 elif [[ $input == "QUIT" || $input == "quit" ]]; then
     echo -e "\n\n"
     echo "[*] NO CHANGES HAVE BEEN MADE."
