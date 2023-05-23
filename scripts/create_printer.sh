@@ -33,6 +33,7 @@ if [[ $input == "GO" || $input == "go" ]]; then
     echo "[*] The new variables.cfg file has been created."
     echo "[*] The new KlipperScreen.conf file has been created."
     echo "[*] File owner defined as \"pi\" for all files."
+    python3 /home/pi/printer_data/config/scripts/python/addsaveconfig.py
     echo "[*] DONE."
 elif [[ $input == "QUIT" || $input == "quit" ]]; then
     echo -e "\n\n"
