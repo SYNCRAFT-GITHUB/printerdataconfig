@@ -1,8 +1,0 @@
-#*# <---------------------- SAVE_CONFIG ---------------------->
-#*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
-#*#
-#*# [probe]
-#*# z_offset = -0.300
-#*#
-#*# [stepper_z]
-#*# position_endstop = 343.272

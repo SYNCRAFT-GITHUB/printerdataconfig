@@ -1,4 +1,2 @@
-printer.cfg
+scripts/transfer.py
 printer-2*.cfg
-variables.cfg
-KlipperScreen.conf
