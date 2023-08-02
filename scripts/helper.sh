@@ -40,6 +40,21 @@ echo "[HELPER] unzip mainsail.zip."
 sudo apt-get install udiskie
 echo "[HELPER] installed udiskie."
 
+sudo apt-get install lightdm
+echo "[HELPER] installed lightdm."
+
+sudo apt-get install vlc
+echo "[HELPER] installed vlc."
+
+sudo apt-get install mplayer
+echo "[HELPER] installed mplayer."
+
+cd ~
+
+curl -s https://archive.swiftlang.xyz/install.sh | sudo bash
+sudo apt install swiftlang
+echo "[HELPER] swift installed."
+
 sudo ln -s /media/ /home/pi/printer_data/gcodes/
 echo "[HELPER] created system link in gcodes folder."
 cd ~/printer_data/gcodes
