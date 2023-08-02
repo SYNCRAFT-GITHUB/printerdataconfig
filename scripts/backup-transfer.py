@@ -22,11 +22,11 @@ if __name__ == "__main__":
 
     # The printerdataconfig path that will be updated over the Internet
     # It will probably be "/home/pi/printerdataconfig"
-    source_directory = "/path/"
+    source_directory = "/home/pi/printerdataconfig"
 
     # The printerdataconfig path that will be used for Klipper
     # It will probably be "/home/pi/printer_data/config"
-    destination_directory = "/path/"
+    destination_directory = "/home/pi/printer_data/config"
 
     ############################################################################
     ###### INSERT IN THE ARRAY WHAT SHOULD BE BLOCKED DURING THE TRANSFER ######
