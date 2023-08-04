@@ -11,7 +11,7 @@ ping -c 1 8.8.8.8 >/dev/null 2>&1
 if [ $? -eq 0 ]; then
   echo "[HELPER] INTERNET OK!"
 else
-  echo "[HELPER] DO NOT RUN THIS SCRIPT WITHOUT INTERNET!"
+  echo "[HELPER] THIS SCRIPT REQUIRES INTERNET!"
   echo "[HELPER] canceling..."
   exit 1
 fi
@@ -20,7 +20,9 @@ fi
 #   VARIABLE DECLARATION   #
 ############################
 
-bootcmdline="console=serial0,115200 console=tty1 root=PARTUUID=9aa55f1b-02 rootfstype=ext4 fsck.repair=yes rootwait consoleblank=1 logo.nologo quiet loglevel=0 plymouth.enable=0 vt.global_cursor_default=0 plymouth.ignore-serial-consoles splash fastboot noatime nodiratime noram"
+bootcmdline_path=/boot/cmdline.txt
+
+bootcmdline_add="consoleblank=1 logo.nologo quiet loglevel=0 plymouth.enable=0 vt.global_cursor_default=0 plymouth.ignore-serial-consoles splash fastboot noatime nodiratime noram"
 
 sxservice="[Unit]
 Description=Syncraft USB Mount Service
@@ -82,6 +84,8 @@ wget -q https://github.com/SYNCRAFT-GITHUB/mainsail/releases/latest/download/mai
 unzip -q mainsail.zip
 echo "[HELPER] DONE: $process."
 
+cd ~
+
 process='Install Udiskie'
 echo "[HELPER] START: $process."
 sudo apt-get install -qqy udiskie
@@ -104,29 +108,31 @@ echo "[HELPER] DONE: $process."
 
 cd ~
 
-process='Install Swift Lang.'
-echo "[HELPER] START: $process."
-curl -s https://archive.swiftlang.xyz/install.sh | sudo bash
-sudo apt install -qqy swiftlang
-echo "[HELPER] DONE: $process."
-
 ######################################
 #         APPLY TEXT VARIABLES       #
 ######################################
 
 process='Modify CMDLINE.'
 echo "[HELPER] START: $process."
-echo -e "$bootcmdline" | sudo tee /boot/cmdline.txt
-echo "[HELPER] DONE: $process."
+if grep -q "rootwait" "$bootcmdline_path"; then
+    bootcmdline_store_clean=$(grep "rootwait" "$bootcmdline_path" | sed 's/\(rootwait\).*$/\1/')
+    echo -e "$bootcmdline_store_clean $bootcmdline_add" | sudo tee /boot/cmdline.txt
+    sudo chmod +x /boot/cmdline.txt
+    echo "[HELPER] DONE: $process."
+else
+    echo "[HELPER] ERROR: $process."
+fi
 
 process='Modify RC.LOCAL.'
 echo "[HELPER] START: $process."
 echo -e "$rclocal" | sudo tee /etc/rc.local
+sudo chmod +x /etc/rc.local
 echo "[HELPER] DONE: $process."
 
 process='Modify Xwrapper Config.'
 echo "[HELPER] START: $process."
 echo -e "$xwrapper" | sudo tee /etc/X11/Xwrapper.config
+sudo chmod +x /etc/X11/Xwrapper.config
 echo "[HELPER] DONE: $process."
 
 process='Create USB Service.'
