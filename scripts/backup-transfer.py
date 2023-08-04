@@ -36,7 +36,12 @@ if __name__ == "__main__":
     ###### * Subfolders cannot be referenced                              ######
     ############################################################################
 
+    # If you want to become a caveman and skip updates, change this variable to True
+    caveman = False
+
+    # Array that blocks specific names
     block = [""]
 
-    transfer_files(source_directory, destination_directory, block)
+    if not caveman:
+        transfer_files(source_directory, destination_directory, block)
     print("[TRANSFER.PY] DONE.")
