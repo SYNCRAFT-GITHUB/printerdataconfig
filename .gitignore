@@ -1,4 +1,6 @@
+scripts/transfer.py
 printer.cfg
 printer-2*.cfg
 variables.cfg
 KlipperScreen.conf
+legacy.txt
