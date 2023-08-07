@@ -16,7 +16,10 @@ else
   exit 1
 fi
 
-# Default value for the variable
+###############################################################
+#         CHOICE TO USE NEW/LEGACY SX1 SYSTEM STRUCTURE       #
+###############################################################
+
 legacy_system=false
 
 echo "[HELPER] Old Syncraft X1 system structure was abandoned in August 2023."
@@ -28,9 +31,7 @@ if [[ "$choice" == "no" || "$choice" == "n" ]]; then
     legacy_system=true
 fi
 
-# Output the result
 echo "[HELPER]: LEGACY SYNCRAFT X1 SYSTEM: $legacy_system."
-
 echo -e "$legacy_system" | sudo tee /home/pi/printerdataconfig/legacy.txt
 
 ############################
@@ -206,7 +207,6 @@ mkdir USB_PRINTS
 mkdir USB
 mkdir .JOB
 echo "[HELPER] DONE: $process."
-
 cd ~
 
 if [[ $legacy_system == false ]]; then
