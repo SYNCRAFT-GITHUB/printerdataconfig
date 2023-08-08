@@ -38,8 +38,11 @@ if os.path.exists(legacy_file_path):
     
     if file_content == "false":
         replace_and_overwrite("/home/pi/printer_data/config/moonraker.conf")
-        print(f"{script_name} replace printerdataconfig moonraker path.")
+        print(f"{script_name} replaced printerdataconfig moonraker path.")
     else:
         print(f"{script_name} system detected as legacy.")
 else:
-    print(f"{script_name} system detected as legacy.")
+    replace_and_overwrite("/home/pi/printer_data/config/moonraker.conf")
+    print(f"{script_name} replace printerdataconfig moonraker path.")
+    print(f"{script_name} legacy file don't exist. acting as non-legacy system")
+    print(f"{script_name} replaced printerdataconfig moonraker path.")
