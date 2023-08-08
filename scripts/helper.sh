@@ -16,24 +16,6 @@ else
   exit 1
 fi
 
-###############################################################
-#         CHOICE TO USE NEW/LEGACY SX1 SYSTEM STRUCTURE       #
-###############################################################
-
-legacy_system=false
-
-echo "[HELPER] Old Syncraft X1 system structure was abandoned in August 2023."
-echo "[HELPER] Do you want to use Syncraft's new system structure or opt for the deprecated?"
-echo '[HELPER] "yes" (y) to the new system and "no" (n) to the deprecated system.'
-read -p "[HELPER] (y/n): " choice
-
-if [[ "$choice" == "no" || "$choice" == "n" ]]; then
-    legacy_system=true
-fi
-
-echo "[HELPER]: LEGACY SYNCRAFT X1 SYSTEM: $legacy_system."
-echo -e "$legacy_system" | sudo tee /home/pi/printerdataconfig/legacy.txt
-
 ############################
 #   VARIABLE DECLARATION   #
 ############################
@@ -55,28 +37,49 @@ bootcmdline_add="consoleblank=1 logo.nologo quiet loglevel=0 plymouth.enable=0 v
 rclocal='#!/bin/sh -e
 
 dmesg --console-off
-omxplayer /home/pi/printer_data/config/.bootvideo/bootvideo_intro.mp4 &
+
+path="/home/pi/printer_data/config/.bootvideo/bootvideo_intro.mp4"
+if [ -e "$path" ]; then
+    omxplayer $path &
+else
+    echo "[SYNCRAFT] Boot Video File not Found."
+fi
+
+path="/home/pi/printer_data/gcodes/USB"
+if [ -d "$path" ]; then
+    echo "[SYNCRAFT] USB Directory OK."
+else
+    echo "[SYNCRAFT] USB Directory not Found, creating it..."
+    cd $path
+    mkdir USB
+    cd ~
+fi
+
 sleep 1 && systemctl daemon-reload && service systemd-udevd --full-restart &
-/home/pi/printer_data/config/scripts/startup_script.sh
-python3 /home/pi/printerdataconfig/scripts/transfer.py
-python3 /home/pi/printerdataconfig/scripts/python/addsaveconfig.py
+
+path="/home/pi/printer_data/config/scripts/startup_script.sh"
+if [ -e "$path" ]; then
+    bash $path
+else
+    echo "[SYNCRAFT] Startup Script not found."
+fi
+
+path="/home/pi/printerdataconfig/scripts/transfer.py"
+if [ -e "$path" ]; then
+    python3 $path
+else
+    echo "[SYNCRAFT] transfer.py Script not Found."
+fi
+
+path="/home/pi/printerdataconfig/scripts/python/addsaveconfig.py"
+if [ -e "$path" ]; then
+    python3 $path
+else
+    echo "[SYNCRAFT] addsaveconfig.py Script not Found."
+fi
 
 exit 0
 '
-
-if [[ $legacy_system == true ]]; then
-
-    rclocal='#!/bin/sh -e
-
-    dmesg --console-off
-    omxplayer /home/pi/printer_data/config/.bootvideo/bootvideo_intro.mp4 &
-    sleep 1 && systemctl daemon-reload && service systemd-udevd --full-restart &
-    /home/pi/printer_data/config/scripts/startup_script.sh &
-
-    exit 0
-    '
-
-fi
 
 usbmountconf='ENABLE=1
 MOUNTPOINTS="/home/pi/printer_data/gcodes/USB"
@@ -134,13 +137,13 @@ unzip -q mainsail.zip
 echo "[HELPER] DONE: $process."
 cd ~
 
-process='Install Crowsnest (Legacy/V3)'
-echo "[HELPER] START: $process."
-git clone -b legacy/v3 https://github.com/mainsail-crew/crowsnest.git
-cd ~/crowsnest
-sudo make install
-echo "[HELPER] DONE: $process."
-cd ~
+#process='Install Crowsnest (Legacy/V3)'
+#echo "[HELPER] START: $process."
+#git clone -b legacy/v3 https://github.com/mainsail-crew/crowsnest.git
+#cd ~/crowsnest
+#sudo make install
+#echo "[HELPER] DONE: $process."
+#cd ~
 
 process='Install OmxPlayer'
 echo "[HELPER] START: $process."
@@ -209,24 +212,16 @@ mkdir .JOB
 echo "[HELPER] DONE: $process."
 cd ~
 
-if [[ $legacy_system == false ]]; then
+process='Create Transfer Python Script.'
+echo "[HELPER] START: $process."
+cd ~/printerdataconfig/scripts
+sudo cp ~/printerdataconfig/scripts/backup-transfer.py ~/printerdataconfig/scripts/transfer.py
+echo "[HELPER] DONE: $process."
 
-    process='Create Transfer Python Script.'
-    echo "[HELPER] START: $process."
-    cd ~/printerdataconfig/scripts
-    sudo cp ~/printerdataconfig/scripts/backup-transfer.py ~/printerdataconfig/scripts/transfer.py
-    echo "[HELPER] DONE: $process."
-
-fi
-
-if [[ $legacy_system == true ]]; then
-
-    process='Use Python Transfer Script.'
-    echo "[HELPER] START: $process."
-    sudo python3 ~/printerdataconfig/scripts/backup-transfer.py
-    echo "[HELPER] DONE: $process."
-
-fi
+process='Use Python Transfer Script.'
+echo "[HELPER] START: $process."
+sudo python3 ~/printerdataconfig/scripts/transfer.py
+echo "[HELPER] DONE: $process."
 
 cd ~
 
