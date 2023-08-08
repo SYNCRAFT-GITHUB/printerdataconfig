@@ -195,6 +195,8 @@ echo "[HELPER] DONE: $process."
 
 process='Modify Systemd Udevd.'
 echo "[HELPER] START: $process."
+sudo mkdir /etc/systemd/system/systemd-udevd.service.d
+sudo touch "/etc/systemd/system/systemd-udevd.service.d/override.conf"
 echo -e "$udevd" | sudo tee /etc/systemd/system/systemd-udevd.service.d/override.conf
 sudo chmod +x /etc/systemd/system/systemd-udevd.service.d/override.conf
 echo "[HELPER] DONE: $process."
