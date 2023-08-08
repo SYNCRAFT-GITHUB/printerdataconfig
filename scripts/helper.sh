@@ -137,13 +137,13 @@ unzip -q mainsail.zip
 echo "[HELPER] DONE: $process."
 cd ~
 
-#process='Install Crowsnest (Legacy/V3)'
-#echo "[HELPER] START: $process."
-#git clone -b legacy/v3 https://github.com/mainsail-crew/crowsnest.git
-#cd ~/crowsnest
-#sudo make install
-#echo "[HELPER] DONE: $process."
-#cd ~
+process='Install Crowsnest (Legacy/V3)'
+echo "[HELPER] START: $process."
+git clone -b legacy/v3 https://github.com/mainsail-crew/crowsnest.git
+cd ~/crowsnest
+sudo make install
+echo "[HELPER] DONE: $process."
+cd ~
 
 process='Install OmxPlayer'
 echo "[HELPER] START: $process."
