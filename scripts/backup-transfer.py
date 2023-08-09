@@ -17,6 +17,7 @@ def transfer_files(source_dir, destination_dir, block_list):
             if not any(block_name in rel_path.split(os.sep) for block_name in block_list):
                 os.makedirs(os.path.dirname(dst_file), exist_ok=True)
                 shutil.copy2(src_file, dst_file)
+                os.chmod(dst_file, 0o777)
 
 if __name__ == "__main__":
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     caveman = False
 
     # Array that blocks specific names
-    block = [""]
+    block = ["KlipperScreen.conf", "variables.cfg"]
 
     if not caveman:
         transfer_files(source_directory, destination_directory, block)

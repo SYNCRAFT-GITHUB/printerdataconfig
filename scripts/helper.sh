@@ -220,11 +220,10 @@ cd ~/printerdataconfig/scripts
 sudo cp ~/printerdataconfig/scripts/backup-transfer.py ~/printerdataconfig/scripts/transfer.py
 echo "[HELPER] DONE: $process."
 
-process='Use Python Transfer Script.'
+process='Use Python First Transfer Script.'
 echo "[HELPER] START: $process."
-sudo python3 ~/printerdataconfig/scripts/transfer.py
+sudo python3 ~/printerdataconfig/scripts/first-transfer.py
 echo "[HELPER] DONE: $process."
-
 cd ~
 
 sudo python3 $ptrdc_dir/scripts/python/addsaveconfig.py
