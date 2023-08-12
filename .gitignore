@@ -1,4 +1,5 @@
 scripts/transfer.py
+backups/extract-saveconfig.txt
 printer.cfg
 printer-2*.cfg
 variables.cfg

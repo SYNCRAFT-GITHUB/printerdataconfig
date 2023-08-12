@@ -20,6 +20,23 @@ if [ -f "$legacy_system_path" ]; then
         chown pi $ptrdc_dir/variables.cfg
         chown pi $ptrdc_dir/KlipperScreen.conf
 
+        ks_config_file_path="/home/pi/printer_data/config/KlipperScreen.conf"
+        reference_line="#*# <---------------------- SAVE_CONFIG ---------------------->"
+        extracted_saveconfig="$ptrdc_dir_bckp/extract-saveconfig.txt"
+        should_save=0
+        > "$extracted_saveconfig"
+
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            if [[ $should_save -eq 1 ]]; then
+                echo "$line" >> "$extracted_saveconfig"
+            fi
+            if [[ $line == "$reference_line" ]]; then
+                should_save=1
+                echo "$line" >> "$extracted_saveconfig"
+            fi
+        done < "$ks_config_file_path"
+
+
     else
         echo "[SYNCRAFT] Syncraft X1 is running Legacy System."
     fi
