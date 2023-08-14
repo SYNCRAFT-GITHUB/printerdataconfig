@@ -3,8 +3,8 @@ import os
 default_path: str = "/home/pi/printer_data/config"
 
 source_file_path = f"{default_path}/printer.cfg"
-saveconfig_file_path = "{default_path}/backups/backup-printercfgsaveconfig.txt"
-new_file_path = "{default_path}/printer.cfg"
+saveconfig_file_path = f"{default_path}/backups/backup-printercfgsaveconfig.txt"
+new_file_path = f"{default_path}/printer.cfg"
 legacy_file_path = "/home/pi/printerdataconfig/legacy.txt"
 extracted_saveconfig_path = "/home/pi/printerdataconfig/backups/extract-saveconfig.txt"
 
