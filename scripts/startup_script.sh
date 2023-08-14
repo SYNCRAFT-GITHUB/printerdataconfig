@@ -20,7 +20,7 @@ if [ -f "$legacy_system_path" ]; then
         chown pi $ptrdc_dir/variables.cfg
         chown pi $ptrdc_dir/KlipperScreen.conf
 
-        ks_config_file_path="/home/pi/printer_data/config/KlipperScreen.conf"
+        printer_config_file_path="/home/pi/printer_data/config/printer.cfg"
         reference_line="#*# <---------------------- SAVE_CONFIG ---------------------->"
         extracted_saveconfig="$ptrdc_dir_bckp/extract-saveconfig.txt"
         should_save=0
@@ -34,7 +34,7 @@ if [ -f "$legacy_system_path" ]; then
                 should_save=1
                 echo "$line" >> "$extracted_saveconfig"
             fi
-        done < "$ks_config_file_path"
+        done < "$printer_config_file_path"
 
 
     else
