@@ -164,7 +164,7 @@ echo "[HELPER] DONE: $process."
 #         APPLY TEXT VARIABLES       #
 ######################################
 
-process='Modify CMDLINE.'
+process='Modify CMDLINE'
 echo "[HELPER] START: $process."
 if grep -q "rootwait" "$bootcmdline_path"; then
     bootcmdline_store_clean=$(grep "rootwait" "$bootcmdline_path" | sed 's/\(rootwait\).*$/\1/')
@@ -175,25 +175,25 @@ else
     echo "[HELPER] ERROR: $process."
 fi
 
-process='Modify RC.LOCAL.'
+process='Modify RC.LOCAL'
 echo "[HELPER] START: $process."
 echo -e "$rclocal" | sudo tee /etc/rc.local
 sudo chmod +x /etc/rc.local
 echo "[HELPER] DONE: $process."
 
-process='Modify BOOTCONFIG.'
+process='Modify BOOTCONFIG'
 echo "[HELPER] START: $process."
 echo -e "$bootconfig" | sudo tee /boot/config.txt
 sudo chmod +x /boot/config.txt
 echo "[HELPER] DONE: $process."
 
-process='Modify UsbMount Config.'
+process='Modify UsbMount Config'
 echo "[HELPER] START: $process."
 echo -e "$usbmountconf" | sudo tee /etc/usbmount/usbmount.conf
 sudo chmod +x /etc/usbmount/usbmount.conf
 echo "[HELPER] DONE: $process."
 
-process='Modify Systemd Udevd.'
+process='Modify Systemd Udevd'
 echo "[HELPER] START: $process."
 sudo mkdir /etc/systemd/system/systemd-udevd.service.d
 sudo touch "/etc/systemd/system/systemd-udevd.service.d/override.conf"
@@ -205,7 +205,7 @@ echo "[HELPER] DONE: $process."
 #         ADJUST PRINTER_DATA STUFF       #
 ###########################################
 
-process='Create USB Folder.'
+process='Create USB Folder'
 echo "[HELPER] START: $process."
 cd ~/printer_data/gcodes
 mkdir USB_PRINTS
@@ -214,18 +214,28 @@ mkdir .JOB
 echo "[HELPER] DONE: $process."
 cd ~
 
-process='Create Transfer Python Script.'
+process='Create Transfer Python Script'
 echo "[HELPER] START: $process."
 cd ~/printerdataconfig/scripts
 sudo cp ~/printerdataconfig/scripts/backup-transfer.py ~/printerdataconfig/scripts/transfer.py
 echo "[HELPER] DONE: $process."
 
-process='Use Python First Transfer Script.'
+process='Use Python First Transfer Script'
 echo "[HELPER] START: $process."
 sudo python3 ~/printerdataconfig/scripts/first-transfer.py
 echo "[HELPER] DONE: $process."
 cd ~
 
+process='Use AddSaveConfig Script'
+echo "[HELPER] START: $process."
 sudo python3 $ptrdc_dir/scripts/python/addsaveconfig.py
+echo "[HELPER] DONE: $process."
+
+process='Create Legacy Text file with false value'
+echo "[HELPER] START: $process."
+cd ~/printerdataconfig
+echo "false" > legacy.txt
+sudo chmod 777 ~/printerdataconfig/legacy.txt
+echo "[HELPER] DONE: $process."
 
 echo -e "\n\n[HELPER] DONE."
