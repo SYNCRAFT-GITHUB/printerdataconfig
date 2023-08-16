@@ -1,13 +1,14 @@
 #!/bin/bash
 
+# Check if it's running by root (it should not)
 if [ "$(id -u)" == 0 ]; then
   echo "[HELPER] DO NOT RUN THIS SCRIPT AS ROOT!"
   echo "[HELPER] canceling..."
   exit 1
 fi
 
+# Check internet connection
 ping -c 1 8.8.8.8 >/dev/null 2>&1
-
 if [ $? -eq 0 ]; then
   echo "[HELPER] INTERNET OK!"
 else
@@ -15,6 +16,13 @@ else
   echo "[HELPER] canceling..."
   exit 1
 fi
+
+############################
+#     PATH DECLARATION     #
+############################
+
+pdc_git="~/printerdataconfig"
+pdc_klipper="~/printer_data/config"
 
 ############################
 #   VARIABLE DECLARATION   #
@@ -36,16 +44,35 @@ ExecStart=/usr/bin/udiskie --automount --no-config --notify --tray --appindicato
 
 rclocal='#!/bin/sh -e
 
-_IP=$(hostname -I) || true
-if [ "$_IP" ]; then
-  printf "Syncraft IP: %s\n" "$_IP"
+sleep 1 && sudo systemctl daemon-reload && service systemd-udevd --full-restart && sudo service sxusb start &
+
+path="/home/pi/printerdataconfig/scripts/transfer.py"
+if [ -e "$path" ]; then
+    python3 $path
+else
+    echo "[SYNCRAFT] transfer.py Script not Found."
 fi
 
-sleep 1 && sudo systemctl daemon-reload && service systemd-udevd --full-restart && sudo service sxusb start &
-python3 /home/pi/printerdataconfig/scripts/transfer.py &
-/home/pi/printer_data/config/scripts/startup_script.sh &
+path="/home/pi/printer_data/config/scripts/startup_script.sh"
+if [ -e "$path" ]; then
+    bash $path
+else
+    echo "[SYNCRAFT] Startup Script not found."
+fi
 
 exit 0
+'
+
+saveconfig_text='
+#*# <---------------------- SAVE_CONFIG ---------------------->
+#*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
+#*#
+#*# [probe]
+#*# z_offset = -0.360
+#*#
+#*# [stepper_z]
+#*# position_endstop = 342.855
+#*#
 '
 
 xwrapper='allowed_users=anybody
@@ -151,8 +178,8 @@ echo "[HELPER] DONE: $process."
 
 process='Create System Link in Gcodes Folder.'
 echo "[HELPER] START: $process."
-sudo ln -s /media/ /home/pi/printer_data/gcodes/
-cd ~/printer_data/gcodes
+sudo ln -s /media/ $pdc_klipper/gcodes/
+cd $pdc_klipper/gcodes
 sudo mv media USB
 mkdir .JOB
 echo "[HELPER] DONE: $process."
@@ -161,8 +188,18 @@ cd ~
 
 process='Create Transfer Python Script.'
 echo "[HELPER] START: $process."
-cd ~/printerdataconfig/scripts
-sudo cp ~/printerdataconfig/scripts/backup-transfer.py ~/printerdataconfig/scripts/transfer.py
+cd $pdc_git/scripts
+sudo cp $pdc_git/scripts/backup-transfer.py $pdc_git/scripts/transfer.py
+echo "[HELPER] DONE: $process."
+
+process='Use First Transfer Python Script.'
+echo "[HELPER] START: $process."
+sudo python3 $pdc_git/scripts/first-transfer.py
+echo "[HELPER] DONE: $process."
+
+process='Add saveconfig to printer.cfg File.'
+echo "[HELPER] START: $process."
+echo "$saveconfig_text" >> "$pdc_klipper/printer.cfg"
 echo "[HELPER] DONE: $process."
 
 cd ~
