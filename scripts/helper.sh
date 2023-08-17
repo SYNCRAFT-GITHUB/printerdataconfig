@@ -21,8 +21,8 @@ fi
 #     PATH DECLARATION     #
 ############################
 
-pdc_git="~/printerdataconfig"
-pdc_klipper="~/printer_data/config"
+pdc_git="/home/pi/printerdataconfig"
+pdc_klipper="/home/pi/printer_data/config"
 
 ############################
 #   VARIABLE DECLARATION   #
@@ -178,7 +178,7 @@ echo "[HELPER] DONE: $process."
 
 process='Create System Link in Gcodes Folder.'
 echo "[HELPER] START: $process."
-sudo ln -s /media/ $pdc_klipper/gcodes/
+sudo ln -s /media/ /home/pi/printer_data/gcodes/
 cd $pdc_klipper/gcodes
 sudo mv media USB
 mkdir .JOB
