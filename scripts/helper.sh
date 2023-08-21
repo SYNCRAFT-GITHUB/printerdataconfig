@@ -179,7 +179,7 @@ echo "[HELPER] DONE: $process."
 process='Create System Link in Gcodes Folder.'
 echo "[HELPER] START: $process."
 sudo ln -s /media/ /home/pi/printer_data/gcodes/
-cd $pdc_klipper/gcodes
+cd /home/pi/printer_data/gcodes
 sudo mv media USB
 mkdir .JOB
 echo "[HELPER] DONE: $process."
