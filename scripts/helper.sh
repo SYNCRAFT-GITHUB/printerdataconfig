@@ -238,4 +238,9 @@ echo "false" > legacy.txt
 sudo chmod 777 ~/printerdataconfig/legacy.txt
 echo "[HELPER] DONE: $process."
 
+process='Add "777" permission on RPy Brightness File.'
+echo "[HELPER] START: $process."
+sudo chmod 777 /sys/class/backlight/*/brightness
+echo "[HELPER] DONE: $process."
+
 echo -e "\n\n[HELPER] DONE."
