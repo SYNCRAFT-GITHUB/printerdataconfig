@@ -202,6 +202,11 @@ echo "[HELPER] START: $process."
 echo "$saveconfig_text" >> "$pdc_klipper/printer.cfg"
 echo "[HELPER] DONE: $process."
 
+process='Add "777" permission on RPy Brightness File.'
+echo "[HELPER] START: $process."
+sudo chmod 777 /sys/class/backlight/*/brightness
+echo "[HELPER] DONE: $process."
+
 cd ~
 
 echo -e "\n\n[HELPER] DONE."
