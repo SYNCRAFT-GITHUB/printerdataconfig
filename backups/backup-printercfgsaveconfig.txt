@@ -5,4 +5,4 @@
 #*# z_offset = -0.300
 #*#
 #*# [stepper_z]
-#*# position_endstop = 343.272
+#*# position_endstop = 340.25
