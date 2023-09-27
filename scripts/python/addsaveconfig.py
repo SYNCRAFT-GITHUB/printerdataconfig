@@ -69,7 +69,7 @@ def replace_and_overwrite(file_path):
     with open(file_path, "r") as file:
         content = file.read()
     
-    new_content = content.replace(default_path, new_path)
+    new_content = content.replace("~/printer_data/config", "~/printerdataconfig")
     
     with open(file_path, "w") as file:
         file.write(new_content)
