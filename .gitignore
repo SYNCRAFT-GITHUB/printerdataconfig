@@ -1,3 +1,5 @@
-save/saveconfig.txt
-scripts/transfer.py
+backups/extract-saveconfig.txt
 printer-2*.cfg
+printer.cfg
+variables.cfg
+KlipperScreen.conf
