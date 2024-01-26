@@ -5,3 +5,4 @@ printer-2*.cfg
 variables.cfg
 KlipperScreen.conf
 legacy.txt
+.vscode
