@@ -74,20 +74,7 @@ def replace_and_overwrite(file_path):
     with open(file_path, "w") as file:
         file.write(new_content)
 
-if os.path.exists(PATH.LEGACY):
-    with open(PATH.LEGACY, "r") as file:
-        file_content = file.read().strip()
-    
-    if file_content == "false":
-        replace_and_overwrite(PATH.MOONRAKER)
-        print(f"{name} replaced printerdataconfig moonraker path.")
-    else:
-        print(f"{name} system detected as legacy.")
-else:
-    replace_and_overwrite(PATH.MOONRAKER)
-    print(f"{name} replace printerdataconfig moonraker path.")
-    print(f"{name} legacy file don't exist. acting as non-legacy system")
-    print(f"{name} replaced printerdataconfig moonraker path.")
+replace_and_overwrite(PATH.MOONRAKER)
 
 try:
     os.system('sudo service klipper restart')
